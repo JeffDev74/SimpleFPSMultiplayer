@@ -36,7 +36,7 @@ namespace FPS
 
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                Fire();
+                CmdFire();
             }
 
         }
@@ -46,13 +46,19 @@ namespace FPS
             GetComponent<MeshRenderer>().material.color = Color.blue;
         }
 
-        void Fire()
+        // This [Command] code is called on the Client …
+        // … but it is run on the Server!
+        [Command]
+        void CmdFire()
         {
             // Create the bullet from the bullet prefab
             var bullet = Instantiate(BulletPrefab, bulletspawn.position, bulletspawn.rotation);
 
             // Add velocity to the bullet
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+
+            // Spawn the bullet to clients
+            NetworkServer.Spawn(bullet);
 
             // Destroy the bullet after 2 seconds
             Destroy(bullet, 2.0f);
