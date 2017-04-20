@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 namespace FPS
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : NetworkBehaviour
     {
         private Transform _theTransform;
         private Transform TheTransform
@@ -17,13 +18,44 @@ namespace FPS
             }
         }
 
+        public GameObject BulletPrefab;
+        public Transform bulletspawn;
+
         private void Update()
         {
+            if (isLocalPlayer == false)
+            {
+                return;
+            }
+
             var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
             var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
             TheTransform.Rotate(0, x, 0);
             TheTransform.Translate(0, 0, z);
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                Fire();
+            }
+
+        }
+
+        public override void OnStartLocalPlayer()
+        {
+            GetComponent<MeshRenderer>().material.color = Color.blue;
+        }
+
+        void Fire()
+        {
+            // Create the bullet from the bullet prefab
+            var bullet = Instantiate(BulletPrefab, bulletspawn.position, bulletspawn.rotation);
+
+            // Add velocity to the bullet
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+
+            // Destroy the bullet after 2 seconds
+            Destroy(bullet, 2.0f);
         }
     }
 }
