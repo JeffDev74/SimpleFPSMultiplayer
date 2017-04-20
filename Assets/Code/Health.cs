@@ -21,6 +21,10 @@ namespace FPS
         public const int maxHealth = 100;
         public bool destroyOnDeath;
 
+        private NetworkStartPosition[] spawnPoints;
+
+        public RectTransform healthBar;
+
         [SyncVar(hook = "OnChangeHealth")]
         public int currentHealth = maxHealth;
 
@@ -30,7 +34,13 @@ namespace FPS
             healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
         }
 
-        public RectTransform healthBar;
+        private void Start()
+        {
+            if(isLocalPlayer)
+            {
+                spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+            }
+        }
 
         public void TakeDamage(int amount)
         {
@@ -61,7 +71,16 @@ namespace FPS
         {
             if(isLocalPlayer)
             {
-                TheTransform.position = Vector3.zero;
+                // Set the spawn point to origin as a default value
+                Vector3 spawnPoint = Vector3.zero;
+
+                //
+                if(spawnPoints != null && spawnPoints.Length > 0)
+                {
+                    spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                }
+
+                TheTransform.position = spawnPoint;
             }
         }
 	}
