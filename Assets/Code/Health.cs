@@ -71,17 +71,23 @@ namespace FPS
         {
             if(isLocalPlayer)
             {
-                // Set the spawn point to origin as a default value
-                Vector3 spawnPoint = Vector3.zero;
-
-                //
-                if(spawnPoints != null && spawnPoints.Length > 0)
-                {
-                    spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
-                }
-
-                TheTransform.position = spawnPoint;
+                TheTransform.position = GetRandomSpawnPoint();
             }
+        }
+
+        private Vector3 GetRandomSpawnPoint()
+        {
+            // Set the spawn point to origin as a default value
+            Vector3 result = Vector3.zero;
+
+            // If there is a spawn point array and the array is not empty, pick one at random
+            if (spawnPoints != null && spawnPoints.Length > 0)
+            {
+                result = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+            }
+
+            // return the position to the chosen spawn point
+            return result;
         }
 	}
 }
