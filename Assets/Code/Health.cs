@@ -19,6 +19,7 @@ namespace FPS
         }
 
         public const int maxHealth = 100;
+        public bool destroyOnDeath;
 
         [SyncVar(hook = "OnChangeHealth")]
         public int currentHealth = maxHealth;
@@ -33,13 +34,25 @@ namespace FPS
 
         public void TakeDamage(int amount)
         {
+            if(isServer == false)
+            {
+                return;
+            }
+
             currentHealth -= amount;
             if(currentHealth <= 0)
             {
-                currentHealth = maxHealth;
+                if(destroyOnDeath)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    currentHealth = maxHealth;
 
-                // called on the server but invoked on the clients
-                RpcRespawn();
+                    // called on the server but invoked on the clients
+                    RpcRespawn();
+                }
             }
         }
 
