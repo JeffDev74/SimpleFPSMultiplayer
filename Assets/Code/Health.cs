@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace FPS
 {
@@ -6,6 +7,8 @@ namespace FPS
 	{
         public const int maxHealth = 100;
         public int currentHealth = maxHealth;
+
+        public RectTransform healthBar;
 
         public void TakeDamage(int amount)
         {
@@ -15,6 +18,8 @@ namespace FPS
                 currentHealth = 0;
                 Debug.Log("Dead!");
             }
+
+            healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
         }
 	}
 }
