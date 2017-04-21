@@ -26,6 +26,37 @@ namespace FPS
             OnServerAddPlayer(conn, playerControllerId, null);
         }
 
+        public override void OnClientSceneChanged(NetworkConnection conn)
+        {
+            #region ex
+            // If you don't override this method unity calls the example code below here...
+            // This is why the client ready was being called twice
+
+            /*
+            ClientScene.Ready(conn);
+ 
+            if (!this.m_AutoCreatePlayer) return;
+ 
+            bool flag1 = ClientScene.localPlayers.Count == 0;
+            bool flag2 = false;
+ 
+            for (int index = 0; index < ClientScene.localPlayers.Count; ++index)
+            {
+                if ((UnityEngine.Object)ClientScene.localPlayers[index].gameObject != (UnityEngine.Object)null)
+                {
+                    flag2 = true;
+                    break;
+                }
+            }
+ 
+            if (!flag2) flag1 = true;
+            if (!flag1) return;
+ 
+            ClientScene.AddPlayer((short)0);
+            */
+            #endregion ex
+        }
+
         public override void OnClientConnect(NetworkConnection conn)
         {
             ClientScene.Ready(conn);

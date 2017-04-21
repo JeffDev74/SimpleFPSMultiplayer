@@ -34,7 +34,8 @@ namespace FPS
             TheTransform.Rotate(0, x, 0);
             TheTransform.Translate(0, 0, z);
 
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Mouse0))
+            //if(Input.GetKeyDown(KeyCode.Space))
             {
                 CmdFire();
             }
