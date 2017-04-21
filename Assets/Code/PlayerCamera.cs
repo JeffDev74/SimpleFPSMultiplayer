@@ -29,10 +29,9 @@ namespace FPS
             }
         }
 
-        public override void PreStartClient()
+        public override void OnStartLocalPlayer()
         {
             ThePlayerManager = FindObjectOfType<PlayerManager>();
-
             ThePlayerManager.ThePlayerCamera.transform.position = new Vector3(0, 0.5f, 0);
             ThePlayerManager.ThePlayerCamera.transform.SetParent(TheTransform);
         }
