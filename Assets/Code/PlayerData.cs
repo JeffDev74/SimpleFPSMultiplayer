@@ -2,9 +2,10 @@
 
 namespace FPS
 {
+    [System.Serializable]
 	public class PlayerData
 	{
-        public int playerUUID;
+        public string playerUUID;
         public string playerTag;
         public int playerTeam;
 	}
