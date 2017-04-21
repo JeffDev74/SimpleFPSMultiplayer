@@ -18,8 +18,8 @@ namespace FPS
                 pInfo.ThePlayerData = new PlayerData();
                 pInfo.ThePlayerData.playerUUID = playerUUID;
                 pInfo.ThePlayerData.playerTag = playerTag;
+
                 pInfo.PlayerTag = playerTag;
-                pInfo.SetupTag();
             }
 
             NetworkServer.AddPlayerForConnection(conn, instantiatedPlayer, playerControllerId);

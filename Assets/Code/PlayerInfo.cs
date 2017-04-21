@@ -33,12 +33,39 @@ namespace FPS
             }
         }
 
-        [SyncVar]
+        [SyncVar(hook = "SetupTag")]
         public string PlayerTag;
 
-        public void SetupTag()
+        public void SetupTag(string tag)
         {
+            PlayerTag = tag;
             ThePlayerTagText.text = PlayerTag;
         }
+
+        private void Update()
+        {
+            if (string.IsNullOrEmpty(ThePlayerTagText.text))
+            {
+                ThePlayerTagText.text = PlayerTag;
+            }
+        }
+
+        //public override bool OnSerialize(NetworkWriter writer, bool initialState)
+        //{
+        //    if(initialState)
+        //    {
+        //        writer.Write(PlayerTag);
+        //    }
+        //    return false;
+        //}
+
+        //public override void OnDeserialize(NetworkReader reader, bool initialState)
+        //{
+        //    if(initialState)
+        //    {
+        //        PlayerTag = reader.ReadString();
+        //        SetupTag(PlayerTag);
+        //    }
+        //}
     }
 }
