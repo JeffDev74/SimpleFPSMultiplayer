@@ -8,6 +8,7 @@ namespace FPS
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
         {
             string playerUUID = extraMessageReader.ReadString();
+            string playerTag = extraMessageReader.ReadString();
             
             GameObject instantiatedPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
@@ -16,6 +17,9 @@ namespace FPS
             {
                 pInfo.ThePlayerData = new PlayerData();
                 pInfo.ThePlayerData.playerUUID = playerUUID;
+                pInfo.ThePlayerData.playerTag = playerTag;
+                pInfo.PlayerTag = playerTag;
+                pInfo.SetupTag();
             }
 
             NetworkServer.AddPlayerForConnection(conn, instantiatedPlayer, playerControllerId);
@@ -62,12 +66,21 @@ namespace FPS
             ClientScene.Ready(conn);
             NetworkPlayerStart msg = new NetworkPlayerStart();
             msg.PlayerUUID = System.Guid.NewGuid().ToString();
+            msg.PlayerTag  = playerTag;
             ClientScene.AddPlayer(conn, 0, msg);
         }
 
         public class NetworkPlayerStart : MessageBase
         {
             public string PlayerUUID;
+            public string PlayerTag;
+        }
+
+        string playerTag = "Unknown";
+        public void GameStartClient(string playerTag)
+        {
+            this.playerTag = playerTag;
+            StartClient();
         }
     }
 }

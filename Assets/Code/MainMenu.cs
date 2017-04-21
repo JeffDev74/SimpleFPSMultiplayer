@@ -23,6 +23,9 @@ namespace FPS
         [SerializeField]
         private Button _hostBtn;
 
+        [SerializeField]
+        private InputField _playerTag;
+
         private void OnEnable()
         {
             _playBtn.onClick.AddListener(OnPlayBtnClick);
@@ -44,7 +47,12 @@ namespace FPS
 
         private void OnPlayBtnClick()
         {
-            TheGameNetworkManager.StartClient();
+            string playerTag = _playerTag.text;
+
+            if(string.IsNullOrEmpty(playerTag) == false)
+            {
+                TheGameNetworkManager.GameStartClient(playerTag);
+            }
         }
 
         #endregion Button Click Handlers
