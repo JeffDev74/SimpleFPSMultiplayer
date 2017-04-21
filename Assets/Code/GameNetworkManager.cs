@@ -76,7 +76,7 @@ namespace FPS
             public string PlayerTag;
         }
 
-        string playerTag = "Unknown";
+        string playerTag = "";
         public void GameStartClient(string playerTag)
         {
             this.playerTag = playerTag;
