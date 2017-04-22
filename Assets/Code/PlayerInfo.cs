@@ -9,7 +9,14 @@ namespace FPS
         public PlayerData _thePlayerData;
         public PlayerData ThePlayerData
         {
-            get { return _thePlayerData; }
+            get
+            {
+                if(_thePlayerData == null)
+                {
+                    _thePlayerData = new PlayerData();
+                }
+                return _thePlayerData;
+            }
             set { _thePlayerData = value; }
         }
 
@@ -33,20 +40,37 @@ namespace FPS
             }
         }
 
-        [SyncVar(hook = "SetupTag")]
-        public string PlayerTag;
-
         public void SetupTag(string tag)
         {
-            PlayerTag = tag;
-            ThePlayerTagText.text = PlayerTag;
+            ThePlayerTagText.text = tag;
         }
 
         private void Update()
         {
             if (string.IsNullOrEmpty(ThePlayerTagText.text))
             {
-                ThePlayerTagText.text = PlayerTag;
+                ThePlayerTagText.text = ThePlayerData.playerTag;
+            }
+        }
+
+        public override bool OnSerialize(NetworkWriter writer, bool initialState)
+        {
+            if(initialState)
+            {
+                writer.Write(ThePlayerData.playerUUID);
+                writer.Write(ThePlayerData.playerTag);
+                return false;
+            }
+            return false;
+        }
+
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        {
+            if(initialState)
+            {
+                ThePlayerData.playerUUID = reader.ReadString();
+                ThePlayerData.playerTag = reader.ReadString();
+                SetupTag(ThePlayerData.playerTag);
             }
         }
     }

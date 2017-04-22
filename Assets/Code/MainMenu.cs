@@ -42,7 +42,13 @@ namespace FPS
 
         private void OnHostBtnClick()
         {
-            TheGameNetworkManager.StartHost();
+            string playerTag = _playerTag.text;
+            if (string.IsNullOrEmpty(playerTag) == false)
+            {
+                TheGameNetworkManager.GameStartHost(playerTag);
+            }
+
+            
         }
 
         private void OnPlayBtnClick()

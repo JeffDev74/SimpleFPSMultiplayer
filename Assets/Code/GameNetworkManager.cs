@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -50,8 +51,7 @@ namespace FPS
                 pInfo.ThePlayerData = new PlayerData();
                 pInfo.ThePlayerData.playerUUID = playerUUID;
                 pInfo.ThePlayerData.playerTag = playerTag;
-
-                pInfo.PlayerTag = playerTag;
+                //pInfo.PlayerTag = playerTag;
             }
 
             ConnectedPlayers.Add(instantiatedPlayer);
@@ -115,6 +115,12 @@ namespace FPS
         {
             this.playerTag = playerTag;
             StartClient();
+        }
+
+        public void GameStartHost(string playerTag)
+        {
+            this.playerTag = playerTag;
+            StartHost();
         }
     }
 }
