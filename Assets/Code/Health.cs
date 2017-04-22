@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FPS.EventSystem;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace FPS
@@ -20,6 +21,19 @@ namespace FPS
 
         public const int maxHealth = 100;
         public bool destroyOnDeath;
+
+        private PlayerInfo _thePlayerInfo;
+        private PlayerInfo ThePlayerInfo
+        {
+            get
+            {
+                if(_thePlayerInfo == null)
+                {
+                    _thePlayerInfo = GetComponent<PlayerInfo>();
+                }
+                return _thePlayerInfo;
+            }
+        }
 
         private NetworkStartPosition[] spawnPoints;
 
@@ -97,6 +111,10 @@ namespace FPS
         {
             if(isLocalPlayer)
             {
+                // fire the event player died
+                EventMessenger.Instance.Raise(new EventPlayerDied(ThePlayerInfo.ThePlayerData.playerUUID));
+
+                // put player to one random spawn point
                 TheTransform.position = GetRandomSpawnPoint();
             }
         }

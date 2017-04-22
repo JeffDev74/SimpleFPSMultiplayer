@@ -5,7 +5,20 @@ namespace FPS
     [RequireComponent(typeof(CanvasGroup))]
 	public class UIRespawnPanel : MonoBehaviour, IUIPanel
 	{
-        private string _panelName = "RespawnPanel";
+        private Transform _theTransform;
+        public Transform TheTransform
+        {
+            get
+            {
+                if (_theTransform == null)
+                {
+                    _theTransform = transform;
+                }
+                return _theTransform;
+            }
+        }
+
+        private string _panelName = Helper.PanelNames.RespawnPanel;
         public string PanelName
         {
             get { return _panelName; }
@@ -23,13 +36,6 @@ namespace FPS
                 }
                 return _theCanvasGroup;
             }
-        }
-
-        public UIManager TheUIManager;
-
-        private void Awake()
-        {
-            TheUIManager.RegisterPanel(gameObject);
         }
 
         public void TogglePanel(bool state)

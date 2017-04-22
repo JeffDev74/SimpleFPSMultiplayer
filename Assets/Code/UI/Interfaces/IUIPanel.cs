@@ -4,7 +4,8 @@ namespace FPS
 {
 	public interface IUIPanel
 	{
-        string PanelName { get; set; }
+        Transform TheTransform { get; }
+        string PanelName { get; }
         void TogglePanel(bool state);
 	}
 }

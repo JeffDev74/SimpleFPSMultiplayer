@@ -8,5 +8,11 @@ namespace FPS
         {
             public static string overviewCamera = "OverviewCam";
         }
+
+        public static class PanelNames
+        {
+            public static string RespawnPanel = "RespawnPanel";
+            public static string LeaderBoardsPanel = "LeaderBoardsPanel";
+        }
 	}
 }
