@@ -42,7 +42,7 @@ namespace FPS
             }
         }
 
-        public void TakeDamage(int amount)
+        public void TakeDamage(int amount, string senderPlayerUUID, string receiverPlayerUUID)
         {
             if(isServer == false)
             {
@@ -58,11 +58,37 @@ namespace FPS
                 }
                 else
                 {
+                    CmdUpdatePlayerStats(senderPlayerUUID, receiverPlayerUUID);
+
                     currentHealth = maxHealth;
 
                     // called on the server but invoked on the clients
                     RpcRespawn();
                 }
+            }
+        }
+
+        [Command]
+        private void CmdUpdatePlayerStats(string SenderPlayerUUID, string ReceiverPlayerUUID)
+        {
+            GameNetworkManager GMManager = FindObjectOfType<GameNetworkManager>();
+            if(GMManager != null)
+            {
+                GameObject senderGO = GMManager.GetPlayer(SenderPlayerUUID);
+                GameObject receiverGO = GMManager.GetPlayer(ReceiverPlayerUUID);
+                if(senderGO && receiverGO)
+                {
+                    PlayerInfo psendInfo = senderGO.GetComponent<PlayerInfo>();
+                    PlayerInfo preceInfo = receiverGO.GetComponent<PlayerInfo>();
+
+                    if(psendInfo && preceInfo)
+                    {
+                        psendInfo.ThePlayerData.playerKills += 1;
+                        preceInfo.ThePlayerData.playerDeaths += 1;
+                    }
+
+                }
+
             }
         }
 

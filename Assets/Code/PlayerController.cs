@@ -18,6 +18,19 @@ namespace FPS
             }
         }
 
+        private PlayerInfo _thePlayerInfo;
+        private PlayerInfo ThePlayerInfo
+        {
+            get
+            {
+                if(_thePlayerInfo == null)
+                {
+                    _thePlayerInfo = GetComponent<PlayerInfo>();
+                }
+                return _thePlayerInfo;
+            }
+        }
+
         public GameObject BulletPrefab;
         public Transform bulletspawn;
 
@@ -53,16 +66,22 @@ namespace FPS
         void CmdFire()
         {
             // Create the bullet from the bullet prefab
-            var bullet = Instantiate(BulletPrefab, bulletspawn.position, bulletspawn.rotation);
+            var instantiatedBullet = Instantiate(BulletPrefab, bulletspawn.position, bulletspawn.rotation);
+
+            Bullet bulletComponent = instantiatedBullet.GetComponent<Bullet>();
+            if(bulletComponent != null)
+            {
+                bulletComponent.senderPlayerUUID = ThePlayerInfo.ThePlayerData.playerUUID;
+            }
 
             // Add velocity to the bullet
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+            instantiatedBullet.GetComponent<Rigidbody>().velocity = instantiatedBullet.transform.forward * 6;
 
             // Spawn the bullet to clients
-            NetworkServer.Spawn(bullet);
+            NetworkServer.Spawn(instantiatedBullet);
 
             // Destroy the bullet after 2 seconds
-            Destroy(bullet, 2.0f);
+            Destroy(instantiatedBullet, 2.0f);
         }
     }
 }

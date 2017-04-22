@@ -4,6 +4,8 @@ namespace FPS
 {
 	public class Bullet : MonoBehaviour
 	{
+        public string senderPlayerUUID;
+
         private void OnCollisionEnter(Collision collision)
         {
             var hit = collision.gameObject;
@@ -11,7 +13,15 @@ namespace FPS
 
             if (health != null)
             {
-                health.TakeDamage(10);
+                string receiverPlayerUUID = System.Guid.Empty.ToString();
+
+                PlayerInfo thePlayerInfo = hit.GetComponent<PlayerInfo>();
+                if(thePlayerInfo != null)
+                {
+                    receiverPlayerUUID = thePlayerInfo.ThePlayerData.playerUUID;
+                }
+
+                health.TakeDamage(10, senderPlayerUUID, receiverPlayerUUID);
             }
 
             Destroy(gameObject);

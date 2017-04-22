@@ -49,23 +49,5 @@ namespace FPS
                 ThePlayerTagText.text = PlayerTag;
             }
         }
-
-        //public override bool OnSerialize(NetworkWriter writer, bool initialState)
-        //{
-        //    if(initialState)
-        //    {
-        //        writer.Write(PlayerTag);
-        //    }
-        //    return false;
-        //}
-
-        //public override void OnDeserialize(NetworkReader reader, bool initialState)
-        //{
-        //    if(initialState)
-        //    {
-        //        PlayerTag = reader.ReadString();
-        //        SetupTag(PlayerTag);
-        //    }
-        //}
     }
 }

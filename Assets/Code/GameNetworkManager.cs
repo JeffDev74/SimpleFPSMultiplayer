@@ -1,10 +1,42 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace FPS
 {
 	public class GameNetworkManager : NetworkManager
 	{
+        private List<GameObject> _connectedPlayers;
+        public List<GameObject> ConnectedPlayers
+        {
+            get
+            {
+                if(_connectedPlayers == null)
+                {
+                    _connectedPlayers = new List<GameObject>();
+                }
+                return _connectedPlayers;
+            }
+        }
+
+        public GameObject GetPlayer(string playerUUID)
+        {
+            PlayerInfo pInfo = null;
+            for (int i = 0; i < ConnectedPlayers.Count; i++)
+            {
+                pInfo = ConnectedPlayers[i].GetComponent<PlayerInfo>();
+                if(pInfo != null)
+                {
+                    if(pInfo.ThePlayerData.playerUUID == playerUUID)
+                    {
+                        return pInfo.gameObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
         {
             string playerUUID = extraMessageReader.ReadString();
@@ -21,6 +53,8 @@ namespace FPS
 
                 pInfo.PlayerTag = playerTag;
             }
+
+            ConnectedPlayers.Add(instantiatedPlayer);
 
             NetworkServer.AddPlayerForConnection(conn, instantiatedPlayer, playerControllerId);
         }
