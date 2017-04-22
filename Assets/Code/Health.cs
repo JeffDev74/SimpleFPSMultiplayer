@@ -48,6 +48,21 @@ namespace FPS
             healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
         }
 
+        private void OnEnable()
+        {
+            EventMessenger.Instance.AddListner<EventPlayerRespawn>(OnPlayerRespawn);
+        }
+
+        private void OnDisable()
+        {
+            EventMessenger.Instance.RemoveListner<EventPlayerRespawn>(OnPlayerRespawn);
+        }
+
+        private void OnPlayerRespawn(EventPlayerRespawn e)
+        {
+            RespawnPlayerAtRandom();
+        }
+
         private void Start()
         {
             if(isLocalPlayer)
@@ -113,10 +128,13 @@ namespace FPS
             {
                 // fire the event player died
                 EventMessenger.Instance.Raise(new EventPlayerDied(ThePlayerInfo.ThePlayerData.playerUUID));
-
-                // put player to one random spawn point
-                TheTransform.position = GetRandomSpawnPoint();
             }
+        }
+
+        public void RespawnPlayerAtRandom()
+        {
+            // put player to one random spawn point
+            TheTransform.position = GetRandomSpawnPoint();
         }
 
         private Vector3 GetRandomSpawnPoint()

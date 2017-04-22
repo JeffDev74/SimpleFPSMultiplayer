@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using FPS.EventSystem;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace FPS
 {
@@ -36,6 +38,26 @@ namespace FPS
                 }
                 return _theCanvasGroup;
             }
+        }
+
+        public Button RespawnBtn;
+
+        public UIManager TheUIManager;
+
+        private void OnEnable()
+        {
+            RespawnBtn.onClick.AddListener(OnRespawnClick);
+        }
+
+        private void OnDisable()
+        {
+            RespawnBtn.onClick.RemoveAllListeners();
+        }
+
+        private void OnRespawnClick()
+        {
+            EventMessenger.Instance.Raise(new EventPlayerRespawn());
+            TheUIManager.TogglePanel(Helper.PanelNames.RespawnPanel, false);
         }
 
         public void TogglePanel(bool state)
