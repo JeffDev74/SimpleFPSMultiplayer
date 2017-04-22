@@ -5,8 +5,10 @@ namespace FPS
 {
 	public class UIManager : MonoBehaviour
 	{
-        List<GameObject> _panels;
-        List<GameObject> Panels
+        bool state = false;
+
+        private List<GameObject> _panels;
+        private List<GameObject> Panels
         {
             get
             {
@@ -30,17 +32,40 @@ namespace FPS
 
         public void TogglePanel(string panelName, bool state)
         {
-            // got look the list
-            //UIPanel panel = null;
+            IUIPanel panel = null;
             for (int i = 0; i < Panels.Count; i++)
             {
-                //panel = Panels[i].GetComponent<UIPanel>();
-                //if(panel  != null)
-                //{
-                //    // check the name
-                //    panel.TogglePanel(state);
-                //}
+                panel = Panels[i].GetComponent<IUIPanel>();
+                if (panel != null)
+                {
+                    if(panel.PanelName == panelName)
+                    {
+                        panel.TogglePanel(state);
+                    }
+                }
             }
         }
-	}
+
+        private void Start()
+        {
+            IUIPanel panel = null;
+            for (int i = 0; i < Panels.Count; i++)
+            {
+                panel = Panels[i].GetComponent<IUIPanel>();
+                if (panel != null)
+                {
+                    panel.TogglePanel(false);
+                }
+            }
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                state = !state;
+                TogglePanel("RespawnPanel", state);
+            }
+        }
+    }
 }
