@@ -73,9 +73,9 @@ namespace FPS
 
         private void OnPlayeDied(EventPlayerDied e)
         {
-            Debug.Log("The Player died [" + e.PlayerUUID + "]");
+            DisableAllPanels();
+            TogglePanel(Helper.PanelNames.RespawnPanel, true);
         }
-
 
         private void Start()
         {
