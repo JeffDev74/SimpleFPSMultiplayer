@@ -38,9 +38,12 @@ namespace FPS
             }
         }
 
+        public LeaderBoard TheLeaderBoardComponent;
+
         public void TogglePanel(bool state)
         {
-            if(state)
+            TheLeaderBoardComponent.PanelToggle(state);
+            if (state)
             {
                 ShowPanel();
             }
