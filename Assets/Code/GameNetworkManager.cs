@@ -50,7 +50,7 @@ namespace FPS
             // This must run after AddPlayerForConnection since the
             // network identity is not initialized before that call
             uint playerUIntID = instantiatedPlayer.GetComponent<NetworkIdentity>().netId.Value;
-            
+
             PlayerInfo pInfo = instantiatedPlayer.GetComponent<PlayerInfo>();
             if(pInfo != null)
             {
@@ -63,7 +63,6 @@ namespace FPS
             }
             
             ConnectedPlayers.Add(instantiatedPlayer);
-
         }
 
 

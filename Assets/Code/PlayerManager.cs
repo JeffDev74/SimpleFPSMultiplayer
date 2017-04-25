@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
 namespace FPS
 {
-	public class PlayerManager : NetworkBehaviour
+	public class PlayerManager : MonoBehaviour
 	{
         public Camera _thePlayerCamera;
         public Camera ThePlayerCamera

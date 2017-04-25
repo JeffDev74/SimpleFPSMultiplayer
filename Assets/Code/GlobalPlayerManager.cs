@@ -3,32 +3,82 @@ using UnityEngine.Networking;
 
 namespace FPS
 {
-    //public struct Foo
-    //{
-    //    int bar;
-
-    //    public Foo(int a)
-    //    {
-    //        bar = a;
-    //    }
-    //}
-
-    //public class FooSync : SyncListStruct<Foo> { }
-    ////public class SyncListPlayerUint : SyncListUInt { }
 
     public class GlobalPlayerManager : NetworkBehaviour
     {
-        //public FooSync sync = new FooSync();
-        //   public SyncListString syncedPlayerList = new SyncListString();
 
-        //public void AddPlayerToList(uint playerUintID)
-        //{
-        //    syncedPlayerList.Add(playerUintID.ToString());
-        //}
+        public static GlobalPlayerManager Instance;
 
-        //void Update()
-        //{
-        //    Debug.Log("The list count is ["+syncedPlayerList.Count+"]");
-        //}
+        private NetworkClient _client;
+        private NetworkClient Client
+        {
+            get
+            {
+                if (_client == null)
+                {
+                    NetworkManager net = FindObjectOfType<NetworkManager>();
+                    if (net != null) { _client = net.client; }
+                    else { Debug.LogWarning("Failed to find NetworkManager to set the client."); }
+                }
+                return _client;
+            }
+        }
+
+        protected void Awake()
+        {
+            Instance = this;
+        }
+
+        public override void OnStartClient()
+        {
+            Client.RegisterHandler(4000, OnPlayerListRequest);
+        }
+
+        public override void OnStartServer()
+        {
+            NetworkServer.RegisterHandler(4000, OnPlayerListRequest);
+        }
+
+        private void OnPlayerListRequest(NetworkMessage netMsg)
+        {
+            NetworkMessagePlayersList msg = netMsg.ReadMessage<NetworkMessagePlayersList>();
+
+            if (isServer && msg.isServerResponse == false)
+            {
+                msg.isServerResponse = true;
+
+                Debug.Log("SERVER received request for players list");
+                NetworkServer.SendToClient(netMsg.conn.connectionId, 4000, msg);
+
+                //NetworkInstanceId netID = new NetworkInstanceId(msg.NetID);
+                //GameObject go = NetworkServer.FindLocalObject(netID);
+                //if (go != null)
+                //{
+
+                //}
+            }
+            else if (Client.isConnected)
+            {
+                Debug.Log("CLIENT receivec the updated players list");
+                //NetworkInstanceId netID = new NetworkInstanceId(msg.NetID);
+                //GameObject go = ClientScene.FindLocalObject(netID);
+                //if (go != null)
+                //{
+                //}
+            }
+        }
+
+        public void RequestPlayersList()
+        {
+            NetworkMessagePlayersList msg = new NetworkMessagePlayersList();
+            msg.isServerResponse = false;
+            Client.Send(4000, msg);
+        }
+
+        public class NetworkMessagePlayersList : MessageBase
+        {
+            public bool isServerResponse = false;
+            public uint[] NetIDs;
+        }
     }
 }

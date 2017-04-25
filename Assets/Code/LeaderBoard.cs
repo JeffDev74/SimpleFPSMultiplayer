@@ -25,21 +25,23 @@ namespace FPS
         {
             if(state)
             {
-                ClearAllRows();
-                foreach(GameObject go in GNManager.ConnectedPlayers)
-                {
-                    PlayerInfo pInfo = go.GetComponent<PlayerInfo>();
-                    if(pInfo != null)
-                    {
-                        GameObject instantiatedrow = Instantiate(TableRowPrefab, Vector3.zero, Quaternion.identity);
-                        UIRowPlayerInfo rowInfo = instantiatedrow.GetComponent<UIRowPlayerInfo>();
-                        if(rowInfo != null)
-                        {
-                            rowInfo.UpdateRowText(pInfo.ThePlayerData.playerTag, pInfo.ThePlayerData.playerKills, pInfo.ThePlayerData.playerDeaths);
-                            instantiatedrow.transform.SetParent(RowsContainer);
-                        }
-                    }
-                }
+                GlobalPlayerManager.Instance.RequestPlayersList();
+                
+                //ClearAllRows();
+                //foreach (GameObject go in GNManager.ConnectedPlayers)
+                //{
+                //    PlayerInfo pInfo = go.GetComponent<PlayerInfo>();
+                //    if(pInfo != null)
+                //    {
+                //        GameObject instantiatedrow = Instantiate(TableRowPrefab, Vector3.zero, Quaternion.identity);
+                //        UIRowPlayerInfo rowInfo = instantiatedrow.GetComponent<UIRowPlayerInfo>();
+                //        if(rowInfo != null)
+                //        {
+                //            rowInfo.UpdateRowText(pInfo.ThePlayerData.playerTag, pInfo.ThePlayerData.playerKills, pInfo.ThePlayerData.playerDeaths);
+                //            instantiatedrow.transform.SetParent(RowsContainer);
+                //        }
+                //    }
+                //}
             }
         }
 
