@@ -44,22 +44,30 @@ namespace FPS
             string playerTag = extraMessageReader.ReadString();
             
             GameObject instantiatedPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            
+            NetworkServer.AddPlayerForConnection(conn, instantiatedPlayer, playerControllerId);
 
+            // This must run after AddPlayerForConnection since the
+            // network identity is not initialized before that call
+            uint playerUIntID = instantiatedPlayer.GetComponent<NetworkIdentity>().netId.Value;
+            
             PlayerInfo pInfo = instantiatedPlayer.GetComponent<PlayerInfo>();
             if(pInfo != null)
             {
                 pInfo.ThePlayerData = new PlayerData();
                 pInfo.ThePlayerData.playerUUID = playerUUID;
                 pInfo.ThePlayerData.playerTag = playerTag;
+                pInfo.ThePlayerData.PlayerNetID = playerUIntID;
+                // token
                 //pInfo.PlayerTag = playerTag;
             }
-
+            
             ConnectedPlayers.Add(instantiatedPlayer);
 
-            NetworkServer.AddPlayerForConnection(conn, instantiatedPlayer, playerControllerId);
         }
 
-        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+
+	    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
         {
             OnServerAddPlayer(conn, playerControllerId, null);
         }
@@ -123,4 +131,5 @@ namespace FPS
             StartHost();
         }
     }
+
 }

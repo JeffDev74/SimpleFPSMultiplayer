@@ -10,5 +10,6 @@ namespace FPS
         public string playerUUID;
         public string playerTag;
         public int playerTeam;
+	    public uint PlayerNetID;
 	}
 }
