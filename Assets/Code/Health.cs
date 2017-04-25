@@ -116,8 +116,22 @@ namespace FPS
                         preceInfo.ThePlayerData.playerDeaths += 1;
                     }
 
-                }
+                    GlobalPlayerManager.NetworkMessagePlayerUpdate msg = new GlobalPlayerManager.NetworkMessagePlayerUpdate();
+                    msg.PlayerNetID = psendInfo.GetComponent<NetworkIdentity>().netId.Value;
+                    msg.deaths = psendInfo.ThePlayerData.playerDeaths;
+                    msg.kills  = psendInfo.ThePlayerData.playerKills;
+                    msg.playerTag = psendInfo.ThePlayerData.playerTag;
+                    msg.playerUUID = psendInfo.ThePlayerData.playerUUID;
+                    NetworkServer.SendToAll(4001, msg);
 
+                    GlobalPlayerManager.NetworkMessagePlayerUpdate msg1 = new GlobalPlayerManager.NetworkMessagePlayerUpdate();
+                    msg1.PlayerNetID = preceInfo.GetComponent<NetworkIdentity>().netId.Value;
+                    msg1.deaths = preceInfo.ThePlayerData.playerDeaths;
+                    msg1.kills  = preceInfo.ThePlayerData.playerKills;
+                    msg.playerTag = preceInfo.ThePlayerData.playerTag;
+                    msg.playerUUID = preceInfo.ThePlayerData.playerUUID;
+                    NetworkServer.SendToAll(4001, msg1);
+                }
             }
         }
 

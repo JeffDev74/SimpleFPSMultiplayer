@@ -61,7 +61,7 @@ namespace FPS
                 writer.Write(ThePlayerData.playerTag);
                 writer.Write(ThePlayerData.PlayerNetID);
 
-                return false;
+                return true;
             }
             return false;
         }
