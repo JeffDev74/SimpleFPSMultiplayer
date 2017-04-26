@@ -30,6 +30,27 @@ namespace FPS
             }
         }
 
+	    private CanvasGroup _theCanvasGroup;
+
+	    private CanvasGroup TheCanvasGroup
+	    {
+	        get
+	        {
+	            if (_theCanvasGroup == null)
+	            {
+	                _theCanvasGroup = GetComponent<CanvasGroup>();
+	            }
+	            return _theCanvasGroup;
+	        }
+	    }
+
+	    public void TogglePanel(bool state)
+	    {
+	        TheCanvasGroup.alpha = state ? 1 : 0;
+	        TheCanvasGroup.interactable = state;
+	        TheCanvasGroup.blocksRaycasts = state;
+	    }
+
         private void Update()
         {
             TheTransform.LookAt(MainCamera.transform);

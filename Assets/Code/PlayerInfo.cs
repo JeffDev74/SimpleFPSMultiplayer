@@ -20,8 +20,8 @@ namespace FPS
             set { _thePlayerData = value; }
         }
 
-        public Transform _playerHud;
-        public Transform PlayerHud
+        public Billboard _playerHud;
+        public Billboard PlayerHud
         {
             get { return _playerHud; }
             set { _playerHud = value; }
