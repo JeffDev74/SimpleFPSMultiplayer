@@ -121,7 +121,7 @@ namespace FPS
         {
             this.playerTag = playerTag;
             //StartHost();
-            StartServer();
+            //StartServer();
         }
     }
 
