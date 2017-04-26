@@ -9,7 +9,6 @@ namespace FPS
         public int playerDeaths;
         public string playerUUID;
         public string playerTag;
-        public int playerTeam;
-	    public uint PlayerNetID;
+	    public int playerTeam;
 	}
 }

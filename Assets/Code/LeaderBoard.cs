@@ -5,19 +5,6 @@ namespace FPS
 {
 	public class LeaderBoard : MonoBehaviour
 	{
-        GameNetworkManager _GNManager;
-        GameNetworkManager GNManager
-        {
-            get
-            {
-                if(_GNManager == null)
-                {
-                    _GNManager = FindObjectOfType<GameNetworkManager>();
-                }
-                return _GNManager;
-            }
-        }
-
         public GameObject TableRowPrefab;
 
         public Transform RowsContainer;

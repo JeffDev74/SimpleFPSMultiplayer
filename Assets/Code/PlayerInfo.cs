@@ -59,7 +59,6 @@ namespace FPS
             {
                 writer.Write(ThePlayerData.playerUUID);
                 writer.Write(ThePlayerData.playerTag);
-                writer.Write(ThePlayerData.PlayerNetID);
 
                 return true;
             }
@@ -72,7 +71,6 @@ namespace FPS
             {
                 ThePlayerData.playerUUID = reader.ReadString();
                 ThePlayerData.playerTag = reader.ReadString();
-                ThePlayerData.PlayerNetID = reader.ReadUInt32();
                 SetupTag(ThePlayerData.playerTag);
             }
         }
