@@ -58,6 +58,25 @@ namespace FPS
             ConnectedPlayers.Add(instantiatedPlayer);
         }
 
+	    public override void OnClientDisconnect(NetworkConnection conn)
+	    {
+	        GameObject player = null;
+	        GameObject tmpPlayer = null;
+            for (int i = 0; i < ConnectedPlayers.Count; i++)
+	        {
+	            player = ConnectedPlayers[i];
+	            NetworkIdentity playerNetIdentity =  player.GetComponent<NetworkIdentity>();
+	            if (playerNetIdentity.connectionToClient == conn)
+	            {
+	                tmpPlayer = ConnectedPlayers[i];
+	            }
+	        }
+
+	        if (tmpPlayer != null)
+	        {
+	            ConnectedPlayers.Remove(tmpPlayer);
+	        }
+	    }
 
 	    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
         {
@@ -119,9 +138,12 @@ namespace FPS
 
         public void GameStartHost(string playerTag)
         {
+#if  UNITY_EDITOR
+            
             this.playerTag = playerTag;
-            //StartHost();
+            StartHost();
             //StartServer();
+#endif
         }
     }
 
