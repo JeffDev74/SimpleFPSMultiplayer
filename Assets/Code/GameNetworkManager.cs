@@ -25,12 +25,16 @@ namespace FPS
             PlayerInfo pInfo = null;
             for (int i = 0; i < ConnectedPlayers.Count; i++)
             {
-                pInfo = ConnectedPlayers[i].GetComponent<PlayerInfo>();
-                if(pInfo != null)
+                GameObject go = ConnectedPlayers[i];
+                if (go != null)
                 {
-                    if(pInfo.ThePlayerData.playerUUID == playerUUID)
+                    pInfo = go.GetComponent<PlayerInfo>();
+                    if(pInfo != null)
                     {
-                        return pInfo.gameObject;
+                        if(pInfo.ThePlayerData.playerUUID == playerUUID)
+                        {
+                            return pInfo.gameObject;
+                        }
                     }
                 }
             }
@@ -66,7 +70,7 @@ namespace FPS
 	        {
 	            player = ConnectedPlayers[i];
 	            NetworkIdentity playerNetIdentity =  player.GetComponent<NetworkIdentity>();
-	            if (playerNetIdentity.connectionToClient == conn)
+	            if (playerNetIdentity.connectionToServer == conn)
 	            {
 	                tmpPlayer = ConnectedPlayers[i];
 	            }
@@ -142,7 +146,7 @@ namespace FPS
             
             this.playerTag = playerTag;
             StartHost();
-            //StartServer();
+            ////StartServer();
 #endif
         }
     }

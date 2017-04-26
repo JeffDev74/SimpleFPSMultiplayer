@@ -102,11 +102,15 @@ namespace FPS
 
                 for (int i = 0; i < TheNetworkManager.ConnectedPlayers.Count; i++)
                 {
-                    uint player_net_id = TheNetworkManager.ConnectedPlayers[i]
-                        .GetComponent<NetworkIdentity>()
-                        .netId.Value;
+                    GameObject go = TheNetworkManager.ConnectedPlayers[i];
+                    if (go != null)
+                    {
+                        uint player_net_id = go
+                            .GetComponent<NetworkIdentity>()
+                            .netId.Value;
 
-                    plist.Add(player_net_id);
+                        plist.Add(player_net_id);
+                    }
                 }
 
                 msg.NetIDs = plist.ToArray();
