@@ -2,6 +2,7 @@
 using FPS.EventSystem;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 namespace FPS
 {
@@ -10,6 +11,8 @@ namespace FPS
     {
 
         public static GlobalPlayerManager Instance;
+
+        public Image PlayerHealthBarUI;
 
         private GameNetworkManager _theNetworkManager;
 

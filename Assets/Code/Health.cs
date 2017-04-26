@@ -1,6 +1,7 @@
 ﻿using FPS.EventSystem;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 namespace FPS
 {
@@ -39,14 +40,24 @@ namespace FPS
 
         public RectTransform healthBar;
 
+	    public Image playerHealthUI;
+
         [SyncVar(hook = "OnChangeHealth")]
         public int currentHealth = maxHealth;
 
-        void OnChangeHealth(int health)
+	    void OnChangeHealth(int health)
         {
             currentHealth = health;
             healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+            float uivalue = currentHealth / 100;
+            Debug.Log("current health ["+uivalue+"]");
+            playerHealthUI.fillAmount = uivalue;
         }
+
+	    public override void OnStartLocalPlayer()
+	    {
+	        playerHealthUI = GlobalPlayerManager.Instance.PlayerHealthBarUI;
+	    }
 
         private void OnEnable()
         {
