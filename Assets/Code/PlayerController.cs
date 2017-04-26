@@ -96,7 +96,6 @@ namespace FPS
             ThePlayerInfo.PlayerHud.TogglePanel(state);
         }
 
-
         private void Update()
         {
             if(CanMove == false) return;

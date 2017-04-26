@@ -87,8 +87,8 @@ namespace FPS
                     PlayerInfo pinfo = go.GetComponent<PlayerInfo>();
                     pinfo.ThePlayerData.playerKills = msg.kills;
                     pinfo.ThePlayerData.playerDeaths = msg.deaths;
-                    pinfo.ThePlayerData.playerTag = msg.playerTag;
-                    pinfo.ThePlayerData.playerUUID = msg.playerUUID;
+                    //pinfo.ThePlayerData.playerTag = msg.playerTag;
+                    //pinfo.ThePlayerData.playerUUID = msg.playerUUID;
                 }
             }
         }
