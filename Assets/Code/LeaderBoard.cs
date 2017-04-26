@@ -21,7 +21,6 @@ namespace FPS
 
         private void OnReceivedPlayersList(EventReceivedPlayersList e)
         {
-            Debug.Log("Received event to sync players list");
             ClearAllRows();
             foreach (GameObject go in e.Players)
             {

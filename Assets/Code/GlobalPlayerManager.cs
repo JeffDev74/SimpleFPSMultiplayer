@@ -83,12 +83,9 @@ namespace FPS
                 GameObject go = ClientScene.FindLocalObject(netID);
                 if (go != null)
                 {
-                    Debug.Log("Client received info to update player info.");
                     PlayerInfo pinfo = go.GetComponent<PlayerInfo>();
                     pinfo.ThePlayerData.playerKills = msg.kills;
                     pinfo.ThePlayerData.playerDeaths = msg.deaths;
-                    //pinfo.ThePlayerData.playerTag = msg.playerTag;
-                    //pinfo.ThePlayerData.playerUUID = msg.playerUUID;
                 }
             }
         }
@@ -114,19 +111,16 @@ namespace FPS
 
                 msg.NetIDs = plist.ToArray();
 
-                Debug.Log("SERVER received request for players list");
                 NetworkServer.SendToClient(netMsg.conn.connectionId, 4000, msg);
-
+                //NetworkServer.SendToAll(4000, msg);
                 //NetworkInstanceId netID = new NetworkInstanceId(msg.NetID);
                 //GameObject go = NetworkServer.FindLocalObject(netID);
                 //if (go != null)
                 //{
-
                 //}
             }
             else if (Client.isConnected)
             {
-                Debug.Log("CLIENT receivec the updated players list");
                 List<GameObject> players = new List<GameObject>();
                 for (int i = 0; i < msg.NetIDs.Length; i++)
                 {

@@ -120,7 +120,8 @@ namespace FPS
         public void GameStartHost(string playerTag)
         {
             this.playerTag = playerTag;
-            StartHost();
+            //StartHost();
+            StartServer();
         }
     }
 

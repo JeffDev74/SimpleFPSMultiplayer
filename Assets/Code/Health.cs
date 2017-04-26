@@ -35,7 +35,7 @@ namespace FPS
             }
         }
 
-        private NetworkStartPosition[] spawnPoints;
+        public NetworkStartPosition[] spawnPoints;
 
         public RectTransform healthBar;
 
@@ -87,7 +87,7 @@ namespace FPS
                 }
                 else
                 {
-                    CmdUpdatePlayerStats(senderPlayerUUID, receiverPlayerUUID);
+                    UpdatePlayerStats(senderPlayerUUID, receiverPlayerUUID);
 
                     currentHealth = maxHealth;
 
@@ -97,8 +97,7 @@ namespace FPS
             }
         }
 
-        [Command]
-        private void CmdUpdatePlayerStats(string SenderPlayerUUID, string ReceiverPlayerUUID)
+        private void UpdatePlayerStats(string SenderPlayerUUID, string ReceiverPlayerUUID)
         {
             GameNetworkManager GMManager = FindObjectOfType<GameNetworkManager>();
             if(GMManager != null)
@@ -149,9 +148,28 @@ namespace FPS
 
         public void RespawnPlayerAtRandom()
         {
+            if (isLocalPlayer)
+            {
+                CmdResetPlayerPosition(gameObject, GetRandomSpawnPoint());
+            }
+            
             // put player to one random spawn point
-            TheTransform.position = GetRandomSpawnPoint();
+            //TheTransform.position = GetRandomSpawnPoint();
         }
+
+	    [Command]
+	    void CmdResetPlayerPosition(GameObject player, Vector3 position)
+	    {
+	        player.transform.position = position;
+	        RpcResetPlayerPosition(player, position);
+
+	    }
+
+	    [ClientRpc]
+	    void RpcResetPlayerPosition(GameObject player, Vector3 position)
+	    {
+	        player.transform.position = position;
+	    }
 
         private Vector3 GetRandomSpawnPoint()
         {
