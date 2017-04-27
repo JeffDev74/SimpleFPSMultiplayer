@@ -32,6 +32,19 @@ namespace FPS
             }
         }
 
+        private CharacterController _theCharController;
+        private CharacterController TheCharController
+        {
+            get
+            {
+                if (_theCharController == null)
+                {
+                    _theCharController = GetComponent<CharacterController>();
+                }
+                return _theCharController;
+            }
+        }
+
         public GameObject BulletPrefab;
         public Transform bulletspawn;
 
@@ -96,26 +109,30 @@ namespace FPS
             ThePlayerInfo.PlayerHud.TogglePanel(state);
         }
 
-        private void Update()
+        private float walkSpeed = 2.0f;
+
+      
+        public float speed = 3.0F;
+        public float rotateSpeed = 3.0F;
+        void Update()
         {
-            if(CanMove == false) return;
-            
+            if (CanMove == false) return;
+                
             if (isLocalPlayer == false)
             {
                 return;
             }
 
-            var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-            var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
-
-            TheTransform.Rotate(0, x, 0);
-            TheTransform.Translate(0, 0, z);
+            transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+            //Quaternion.LookDirection(forward, Vector3.up)
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            float curSpeed = speed * Input.GetAxis("Vertical");
+            TheCharController.SimpleMove(forward * curSpeed);
 
             if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Space))
             {
-                CmdFire();
+                  CmdFire();
             }
-
         }
 
         public void TogglePlayer(bool state)

@@ -49,9 +49,11 @@ namespace FPS
         {
             currentHealth = health;
             healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
-            float uivalue = currentHealth / 100;
-            Debug.Log("current health ["+uivalue+"]");
-            playerHealthUI.fillAmount = uivalue;
+            if (isLocalPlayer)
+            {
+                float uivalue = currentHealth / 100.0f;
+                playerHealthUI.fillAmount = uivalue;
+            }
         }
 
 	    public override void OnStartLocalPlayer()

@@ -142,12 +142,12 @@ namespace FPS
 
         public void GameStartHost(string playerTag)
         {
-#if  UNITY_EDITOR
+//#if  UNITY_EDITOR
             
             this.playerTag = playerTag;
             StartHost();
-            ////StartServer();
-#endif
+            //StartServer();
+//#endif
         }
     }
 
