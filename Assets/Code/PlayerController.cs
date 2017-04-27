@@ -61,7 +61,9 @@ namespace FPS
             }
         }
 
-        public bool CanMove = true; 
+        public bool CanMove = true;
+        public float speed = 3.0f;
+        public float rotateSpeed = 3.0f;
 
         private void OnEnable()
         {
@@ -109,8 +111,7 @@ namespace FPS
             ThePlayerInfo.PlayerHud.TogglePanel(state);
         }
 
-        public float speed = 3.0F;
-        public float rotateSpeed = 3.0F;
+        
         void Update()
         {
             if (CanMove == false) return;
