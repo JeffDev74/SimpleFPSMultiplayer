@@ -109,9 +109,6 @@ namespace FPS
             ThePlayerInfo.PlayerHud.TogglePanel(state);
         }
 
-        private float walkSpeed = 2.0f;
-
-      
         public float speed = 3.0F;
         public float rotateSpeed = 3.0F;
         void Update()
